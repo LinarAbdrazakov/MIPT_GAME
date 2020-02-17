@@ -2,6 +2,9 @@
 
 Object::Object()
 {
+	id_     = 0;
+	sprite_ = 0;
+
 	coordinate_.x = 0;
 	coordinate_.y = 0;
 
@@ -16,14 +19,19 @@ Object::Object()
 
 Object::Object(const Object& that)
 {
+	id_         = that.GetId();
+	sprite_     = that.GetSprite();
 	coordinate_ = that.GetCoordinate();
 	speed_      = that.GetSpeed();
 	size_       = that.GetSize();
 	dt_         = that.GetDt();
 }
 
-Object::Object(sf::Vector2f coordinate, sf::Vector2f speed, sf::Vector2i size, float* dt)
+Object::Object(int id, sf::Vector2f coordinate, sf::Vector2f speed, sf::Vector2i size, float* dt)
 {
+	id_     = id;
+	sprite_ = 0; //sprite manager will be made here
+
 	coordinate_.x = coordinate.x;
 	coordinate_.y = coordinate.y;
 
@@ -38,6 +46,9 @@ Object::Object(sf::Vector2f coordinate, sf::Vector2f speed, sf::Vector2i size, f
 
 Object::~Object()
 {
+	id_     = 0;
+	sprite_ = 0;
+
 	coordinate_.x = 0;
 	coordinate_.y = 0;
 
@@ -48,6 +59,15 @@ Object::~Object()
 	size_.y = 0;
 
 	dt_ = 0;
+}
+
+const int Object::GetId() const
+{
+	return id_;
+}
+sf::Sprite* Object::GetSprite() const
+{
+    return sprite_;
 }
 
 const sf::Vector2f Object::GetCoordinate() const
@@ -68,6 +88,16 @@ const sf::Vector2i Object::GetSize() const
 float* Object::GetDt() const
 {
 	return dt_;
+}
+
+void Object::SetId (int id)
+{
+	id_ = id;
+}
+
+void Object::SetSprite (sf::Sprite* sprite)
+{
+	sprite_ = sprite;
 }
 
 void Object::SetCoordinate(sf::Vector2f coordinate)
